@@ -2,7 +2,8 @@ import pygame
 import random
 import sys
 
-SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
+SCREEN_WIDTH = 640
+SCREEN_HEIGHT = 480
 GRID_SIZE = 20
 GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
 GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
@@ -26,7 +27,9 @@ class GameObject:
         self.body_color = body_color
 
     def draw(self, surface):
-        raise NotImplementedError("Метод draw должен быть реализован в дочернем классе")
+        raise NotImplementedError(
+            "Метод draw должен быть реализован в дочернем классе"
+        )
 
 
 class Apple(GameObject):
@@ -74,7 +77,9 @@ class Snake(GameObject):
             (head_x + dx * GRID_SIZE) % SCREEN_WIDTH,
             (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT,
         )
-        self.last_position = self.positions[-1] if len(self.positions) > 0 else None
+        self.last_position = (
+            self.positions[-1] if len(self.positions) > 0 else None
+        )
         self.positions.insert(0, new_head_position)
         if len(self.positions) > self.length:
             self.positions.pop()
@@ -94,6 +99,7 @@ class Snake(GameObject):
             rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(surface, self.body_color, rect)
             pygame.draw.rect(surface, BORDER_COLOR, rect, 1)
+        
         if self.last_position and self.last_position not in self.positions:
             rect = pygame.Rect(self.last_position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(surface, BACKGROUND_COLOR, rect)
@@ -127,9 +133,7 @@ def main():
 
     while True:
         handle_keys(snake)
-
         snake.update_direction()
-
         snake.move()
 
         if snake.get_head_position() == apple.position:
